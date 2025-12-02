@@ -1,9 +1,9 @@
 /*********************************************************************
- *           立创开发板不靠卖板赚钱，以培养中国工程师为己任  
+ *           立创开发板不靠卖板赚钱，以培养中国工程师为己任
  *         泰山派软硬件资料与相关扩展板软硬件资料官网全部开源
- *                      开发板官网：www.lckfb.com            
- *                     立创论坛：oshwhub.com/forum           
- *            关注B站：【立创开发板】，掌握我们的最新动态！  
+ *                      开发板官网：www.lckfb.com
+ *                     立创论坛：oshwhub.com/forum
+ *            关注B站：【立创开发板】，掌握我们的最新动态！
  *********************************************************************
  * 文件名：tspi-rk3566-gmac1-v10.dtsi
  * 描述：网口配置
@@ -18,7 +18,11 @@
 	phy-mode = "rgmii";
 	clock_in_out = "output";
 
-	snps,reset-gpio = <&gpio0 RK_PC7 GPIO_ACTIVE_LOW>;
+	// 泰山派RTL复位引脚
+	// snps,reset-gpio = <&gpio0 RK_PC7 GPIO_ACTIVE_LOW>;
+	
+	// 鲁班猫RTL复位引脚 可以识别到芯片但是没有网口
+	snps,reset-gpio = <&gpio2 RK_PB0 GPIO_ACTIVE_LOW>;
 	snps,reset-active-low;
 	/* Reset time is 20ms, 100ms for rtl8211f */
 	snps,reset-delays-us = <0 20000 100000>;
@@ -34,8 +38,13 @@
 		     &gmac1m1_rgmii_clk
 		     &gmac1m1_rgmii_bus>;
 
-	tx_delay = <0x4f>;
-	rx_delay = <0x25>;
+	// 泰山派延时
+	// tx_delay = <0x4f>;
+	// rx_delay = <0x25>;
+
+	// 鲁班猫延时 泰山派也能用
+	tx_delay = <0x20>;
+	rx_delay = <0x01>;
 
 	phy-handle = <&rgmii_phy0>;
 	status = "okay";
@@ -47,3 +56,4 @@
 		reg = <0x0>;
 	};
 };
+
