@@ -913,9 +913,9 @@
 &usbhost_dwc3 {
 	// 只使用 USB2 PHY，不使用 USB3 PHY
 	// 👇 USB2配置
-	phys = <&u2phy0_host>;
-	phy-names = "usb2-phy";
-	maximum-speed = "high-speed";
+	// phys = <&u2phy0_host>;
+	// phy-names = "usb2-phy";
+	// maximum-speed = "high-speed";
 	// 👆 USB2配置
 	status = "okay";
 };
