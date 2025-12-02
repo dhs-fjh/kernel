@@ -881,7 +881,7 @@
 
 //ehci支持usb2.0
 &usb_host0_ehci {
-	status = "okay";
+		status = "okay";
 };
 
 //ohci支持usb1.0和usb1.1
@@ -905,11 +905,18 @@
 };
 
 //hostusb3.0
+// RK3566 将 USB3 控制器配置为 USB2.0 模式使用
 &usbdrd30 {
 	status = "okay";
 };
 
 &usbhost_dwc3 {
+	// 只使用 USB2 PHY，不使用 USB3 PHY
+	// 👇 USB2配置
+	phys = <&u2phy0_host>;
+	phy-names = "usb2-phy";
+	maximum-speed = "high-speed";
+	// 👆 USB2配置
 	status = "okay";
 };
 
