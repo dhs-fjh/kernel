@@ -1,0 +1,6 @@
+config USER_HELLO
+	tristate "Hello World Module"
+	help
+	  Simple hello world kernel module.
+
+	  Say M to build as a module, Y to build into kernel.
