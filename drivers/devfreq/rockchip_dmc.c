@@ -424,7 +424,7 @@ static int rockchip_dmcfreq_opp_helper(struct dev_pm_set_opp_data *data)
 		cpu_cur = raw_smp_processor_id();
 		policy = cpufreq_cpu_get(cpu_cur);
 		if (!policy) {
-			dev_err(dev, "cpu%d policy NULL\n", cpu_cur);
+			// dev_err(dev, "cpu%d policy NULL\n", cpu_cur);
 			ret = -EINVAL;
 			goto cpufreq;
 		}
