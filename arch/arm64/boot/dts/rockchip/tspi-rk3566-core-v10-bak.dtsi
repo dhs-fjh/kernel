@@ -28,14 +28,7 @@
 
 / {
 	chosen: chosen {
-		// EMMC 启动
-		// bootargs = "earlycon=uart8250,mmio32,0xfe660000 console=ttyFIQ0 root=PARTUUID=614e0000-0000 rw rootwait";	
-
-		// SD 卡 启动 带userdata分区 固rootfs分区排在4号 
-		// 		root@RK356X:/# blkid
-		// /dev/mmcblk1p4: LABEL="rootfs" UUID="5eef7ef2-2679-46d0-936f-8e0f02ffcbe3" TYPE="ext4"
-		// /dev/mmcblk1p3: LABEL="userdata" UUID="f76e1201-7bcd-450f-a4b1-0d6c6fc6b0c5" TYPE="ext4"
-		bootargs = "earlycon=uart8250,mmio32,0xfe660000 console=ttyFIQ0 root=/dev/mmcblk1p4 rw rootwait";
+		bootargs = "earlycon=uart8250,mmio32,0xfe660000 console=ttyFIQ0 root=PARTUUID=614e0000-0000 rw rootwait";
 	};
 
 	fiq-debugger {
@@ -106,38 +99,38 @@
 		regulator-max-microvolt = <12000000>;
 	};
 
-	// pdmics: dummy-codec {
-	// 	status = "disabled";
-	// 	compatible = "rockchip,dummy-codec";
-	// 	#sound-dai-cells = <0>;
-	// };
+	pdmics: dummy-codec {
+		status = "disabled";
+		compatible = "rockchip,dummy-codec";
+		#sound-dai-cells = <0>;
+	};
 
-	// pdm_mic_array: pdm-mic-array {
-	// 	status = "disabled";
-	// 	compatible = "simple-audio-card";
-	// 	simple-audio-card,name = "rockchip,pdm-mic-array";
-	// 	simple-audio-card,cpu {
-	// 		sound-dai = <&pdm>;
-	// 	};
-	// 	simple-audio-card,codec {
-	// 		sound-dai = <&pdmics>;
-	// 	};
-	// };
+	pdm_mic_array: pdm-mic-array {
+		status = "disabled";
+		compatible = "simple-audio-card";
+		simple-audio-card,name = "rockchip,pdm-mic-array";
+		simple-audio-card,cpu {
+			sound-dai = <&pdm>;
+		};
+		simple-audio-card,codec {
+			sound-dai = <&pdmics>;
+		};
+	};
 
-	// rk809_sound: rk809-sound {
-	// 	status = "okay";
-	// 	compatible = "simple-audio-card";
-	// 	simple-audio-card,format = "i2s";
-	// 	simple-audio-card,name = "rockchip,rk809-codec";
-	// 	simple-audio-card,mclk-fs = <256>;
+	rk809_sound: rk809-sound {
+		status = "okay";
+		compatible = "simple-audio-card";
+		simple-audio-card,format = "i2s";
+		simple-audio-card,name = "rockchip,rk809-codec";
+		simple-audio-card,mclk-fs = <256>;
 
-	// 	simple-audio-card,cpu {
-	// 		sound-dai = <&i2s1_8ch>;
-	// 	};
-	// 	simple-audio-card,codec {
-	// 		sound-dai = <&rk809_codec>;
-	// 	};
-	// };
+		simple-audio-card,cpu {
+			sound-dai = <&i2s1_8ch>;
+		};
+		simple-audio-card,codec {
+			sound-dai = <&rk809_codec>;
+		};
+	};
 
 	spdif-sound {
 		status = "disabled";
@@ -157,13 +150,13 @@
 			#sound-dai-cells = <0>;
 	};
 
-	// vad_sound: vad-sound {
-	// 	status = "disabled";
-	// 	compatible = "rockchip,multicodecs-card";
-	// 	rockchip,card-name = "rockchip,rk3568-vad";
-	// 	rockchip,cpu = <&i2s1_8ch>;
-	// 	rockchip,codec = <&rk809_codec>, <&vad>;
-	// };
+	vad_sound: vad-sound {
+		status = "disabled";
+		compatible = "rockchip,multicodecs-card";
+		rockchip,card-name = "rockchip,rk3568-vad";
+		rockchip,cpu = <&i2s1_8ch>;
+		rockchip,codec = <&rk809_codec>, <&vad>;
+	};
 
 	vcc3v3_sys: vcc3v3-sys {
 		compatible = "regulator-fixed";
@@ -343,17 +336,18 @@
 
 
 
+
 // / {
 //     vdd_cpu: regulator-fixed {
 //         compatible = "regulator-fixed";
 //         regulator-name = "vdd_cpu";
 //         regulator-min-microvolt = <900000>;
 //         regulator-max-microvolt = <900000>;
-// 		regulator-init-microvolt = <900000>;
 //         regulator-always-on;
 //         regulator-boot-on;
 //     };
 // };
+
 
 &i2c0 {
 	status = "okay";
@@ -364,19 +358,16 @@
 		vin-supply = <&vcc5v0_sys>;
 		regulator-compatible = "fan53555-reg";
 		regulator-name = "vdd_cpu";
-		// regulator-min-microvolt = <712500>;
-		// regulator-max-microvolt = <1390000>;
-		regulator-min-microvolt = <900000>;
-        regulator-max-microvolt = <900000>;
+		regulator-min-microvolt = <712500>;
+		regulator-max-microvolt = <1390000>;
 		regulator-init-microvolt = <900000>;
 		regulator-ramp-delay = <2300>;
 		fcs,suspend-voltage-selector = <1>;
 		regulator-boot-on;
 		regulator-always-on;
-		// regulator-state-mem {
-		// 	regulator-off-in-suspend;
-		// };
-		// status = "disabled";
+		regulator-state-mem {
+			regulator-off-in-suspend;
+		};
 	};
 
 	rk809: pmic@20 {
@@ -626,33 +617,33 @@
 			};
 		};
 
-		// rk809_codec: codec {
-		// 	#sound-dai-cells = <0>;
-		// 	compatible = "rockchip,rk809-codec", "rockchip,rk817-codec";
-		// 	clocks = <&cru I2S1_MCLKOUT>;
-		// 	clock-names = "mclk";
-		// 	assigned-clocks = <&cru I2S1_MCLKOUT>, <&cru I2S1_MCLK_TX_IOE>;
-		// 	assigned-clock-rates = <12288000>;
-		// 	assigned-clock-parents = <&cru I2S1_MCLKOUT_TX>, <&cru I2S1_MCLKOUT_TX>;
-		// 	pinctrl-names = "default";
-		// 	pinctrl-0 = <&i2s1m0_mclk>;
-		// 	hp-volume = <20>;
-		// 	spk-volume = <3>;
-		// 	mic-in-differential;
-		// 	status = "okay";
-		// };
+		rk809_codec: codec {
+			#sound-dai-cells = <0>;
+			compatible = "rockchip,rk809-codec", "rockchip,rk817-codec";
+			clocks = <&cru I2S1_MCLKOUT>;
+			clock-names = "mclk";
+			assigned-clocks = <&cru I2S1_MCLKOUT>, <&cru I2S1_MCLK_TX_IOE>;
+			assigned-clock-rates = <12288000>;
+			assigned-clock-parents = <&cru I2S1_MCLKOUT_TX>, <&cru I2S1_MCLKOUT_TX>;
+			pinctrl-names = "default";
+			pinctrl-0 = <&i2s1m0_mclk>;
+			hp-volume = <20>;
+			spk-volume = <3>;
+			mic-in-differential;
+			status = "okay";
+		};
 	};
 };
 
-// &i2s1_8ch {
-// 	status = "okay";
-// 	rockchip,clk-trcm = <1>;
-// 	pinctrl-names = "default";
-// 	pinctrl-0 = <&i2s1m0_sclktx
-// 		     &i2s1m0_lrcktx
-// 		     &i2s1m0_sdi0
-// 		     &i2s1m0_sdo0>;
-// };
+&i2s1_8ch {
+	status = "okay";
+	rockchip,clk-trcm = <1>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2s1m0_sclktx
+		     &i2s1m0_lrcktx
+		     &i2s1m0_sdi0
+		     &i2s1m0_sdo0>;
+};
 
 //像增强处理器,锐化降噪等等
 &iep {
@@ -904,7 +895,7 @@
 
 //ehci支持usb2.0
 &usb_host0_ehci {
-	status = "okay";
+		status = "okay";
 };
 
 //ohci支持usb1.0和usb1.1
@@ -928,11 +919,18 @@
 };
 
 //hostusb3.0
+// RK3566 将 USB3 控制器配置为 USB2.0 模式使用
 &usbdrd30 {
 	status = "okay";
 };
 
 &usbhost_dwc3 {
+	// 只使用 USB2 PHY，不使用 USB3 PHY
+	// 👇 USB2配置
+	// phys = <&u2phy0_host>;
+	// phy-names = "usb2-phy";
+	// maximum-speed = "high-speed";
+	// 👆 USB2配置
 	status = "okay";
 };
 
@@ -941,12 +939,12 @@
 };
 
 //音活动检测模块
-// &vad {
-// 	rockchip,audio-src = <&i2s1_8ch>;
-// 	rockchip,buffer-time-ms = <128>;
-// 	rockchip,det-channel = <0>;
-// 	rockchip,mode = <0>;
-// };
+&vad {
+	rockchip,audio-src = <&i2s1_8ch>;
+	rockchip,buffer-time-ms = <128>;
+	rockchip,det-channel = <0>;
+	rockchip,mode = <0>;
+};
 
 //视频解码硬件加速H.26X等
 &vdpu {

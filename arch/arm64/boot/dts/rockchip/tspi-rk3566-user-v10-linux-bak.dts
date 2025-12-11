@@ -42,7 +42,7 @@
 // #include "tspi-rk3566-csi-v10.dtsi"
 
 //【开/关】网口 扩展板上使用的是千兆网，不接扩展板情况下可以关闭
-// #include "tspi-rk3566-gmac1-v10.dtsi"
+#include "tspi-rk3566-gmac1-v10.dtsi"
 
 //【开/关】下方是用户定义层，所有用户修改理论上在此下方修改就好了
 / {
@@ -59,31 +59,50 @@
 	leds: leds {
 		compatible = "gpio-leds";
 		rgb_led_r: rgb-led-r {
-			gpios = <&gpio1 RK_PB1 GPIO_ACTIVE_LOW>;
-			linux,default-trigger = "none";
+			gpios = <&gpio1 RK_PB2 GPIO_ACTIVE_LOW>;
+			linux,default-trigger = "timer";
+			linux,delay-reg = <0>;   		// 延时注册
+			linux,blink-delay-on = <500>; 	// 打开时间
+			linux,blink-delay-off = <500>;	// 关闭时间
 		};
 		rgb_led_g: rgb-led-g {
-			gpios = <&gpio1 RK_PB0 GPIO_ACTIVE_LOW>;
-			linux,default-trigger = "none";
+			gpios = <&gpio1 RK_PB1 GPIO_ACTIVE_LOW>;
+			linux,default-trigger = "timer";
+			linux,delay-reg = <100>;   		// 延时注册
+			linux,blink-delay-on = <1000>; 
+			linux,blink-delay-off = <1000>;
 		};
 		rgb_led_b: rgb-led-b {
-			gpios = <&gpio1 RK_PA6 GPIO_ACTIVE_LOW>;
-			linux,default-trigger = "none";
+			gpios = <&gpio1 RK_PB0 GPIO_ACTIVE_LOW>;
+			linux,default-trigger = "timer";
+			linux,delay-reg = <100>;  		// 延时注册
+			linux,blink-delay-on = <1500>; 
+			linux,blink-delay-off = <1500>;
 		};
 
 		rgb2_led_r: rgb2-led-r {
-			gpios = <&gpio1 RK_PA5 GPIO_ACTIVE_LOW>;
-			linux,default-trigger = "none";
+			gpios = <&gpio3 RK_PB3 GPIO_ACTIVE_HIGH>;
+			linux,default-trigger = "timer";
+			linux,delay-reg = <0>;   		// 延时注册
+			linux,blink-delay-on = <500>; 	// 打开时间
+			linux,blink-delay-off = <500>;	// 关闭时间
 		};
 		rgb2_led_g: rgb2-led-g {
-			gpios = <&gpio1 RK_PA7 GPIO_ACTIVE_LOW>;
-			linux,default-trigger = "none";
+			gpios = <&gpio3 RK_PC3 GPIO_ACTIVE_HIGH>;
+			linux,default-trigger = "timer";
+			linux,delay-reg = <100>;   		// 延时注册
+			linux,blink-delay-on = <1000>; 
+			linux,blink-delay-off = <1000>;
 		};
 		rgb2_led_b: rgb2-led-b {
-			gpios = <&gpio1 RK_PB2 GPIO_ACTIVE_LOW>;
-			linux,default-trigger = "none";
+			gpios = <&gpio3 RK_PB4 GPIO_ACTIVE_HIGH>;
+			linux,default-trigger = "timer";
+			linux,delay-reg = <100>;  		// 延时注册
+			linux,blink-delay-on = <1500>; 
+			linux,blink-delay-off = <1500>;
 		};
 	};
+
 };
 
 &pinctrl {
@@ -141,6 +160,10 @@
 	};*/
 };
 
+&i2c4 {
+	/* i2c4 sda conflict with camera pwdn */
+	status = "okay";
+};
 
 &spi3 {
 	status = "okay";
